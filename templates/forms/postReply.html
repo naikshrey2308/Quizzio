@@ -1,0 +1,37 @@
+{% load static %}
+
+<div class="my-5">&nbsp;</div>
+<div class="container my-5" id="post-reply-form">
+    <h1 class="my-3 fw-bold text-center">Post A Reply</h1>
+    <div class="row my-5">
+        <form id="form" action="postReply" class="col-md-8 col-12 mx-auto input-control py-3" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-lg-12 col-md col-12 d-none form-group mb-3">           
+                {{form.creator}}
+                {{form.trustedCreator}}
+                {{form.doubt}}
+            </div>
+            <div class="col-lg-12 col-md col-12 form-group mb-3">           
+                {{form.statement}}
+            </div>
+            <input type="button" id="post" class="btn btn-primary my-4 float-end" value="Post Reply" />
+            <input id="sub" type="submit" class="d-none" />
+        </form>
+    </div>
+</div>
+
+<audio id="sound">
+    <source src="{% static 'sounds/like.mp3' %}" />
+</audio>
+
+<script>
+
+    let sound = document.getElementById("sound");
+    document.getElementById("post").addEventListener("click", () => {
+        sound.play();
+        setTimeout(() => {
+            document.getElementById("sub").click();
+        }, 500);
+    });
+
+</script>

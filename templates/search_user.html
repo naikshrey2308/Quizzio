@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="generator" content="Mobirise v5.6.0, mobirise.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <link rel="shortcut icon" href="{% static 'assets/images/quizzio-logo-96x96.png' %}" type="image/x-icon">
+        <meta name="description" content="">
+        <title>Search User | Quizzio</title>
+        <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-grid.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-reboot.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/animatecss/animate.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/socicon/css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
+        <link rel="preload"
+            href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
+            as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
+        </noscript>
+        <link rel="preload" as="style" href="{% static 'assets/mobirise/css/mbr-additional.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+    </head>
+
+    <style>
+        #view_user:hover { background-color: var(--base-light); cursor: pointer; }
+    </style>
+
+<body>
+    {% include "navbar.html" %}
+    {% include "forms/login-register.html" %}
+    
+    {% if messages %}
+    <div id="message" class="toast show position-absolute" style="top: 75px; left: 40%;" role="alert">
+        <div class="toast-header">
+        <button onclick="document.getElementById('message').classList.add('d-none')" type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="my-5"></div>
+    <div class="w-75 mb-5 mx-auto">
+        <form method="GET" action="/accounts/getUser">
+            {% csrf_token %}
+            <input placeholder="Search by email" name="search_email" type="text" class="input-control form-control" id="search_email" required />
+        </form>
+    </div>
+
+    {% if not messages %}
+    <div class="container">
+        <table class="table w-75 mx-auto mb-5">
+            {% for item in users %}
+            <tr class="user_item p-3">
+                <td>
+                    <div class="row">
+                    <span class="fw-bold col-11">{{item.name}}</span>
+                    <span id="view_user" class="col d-inline p-2 text-center text-base-dark"><a href="/accounts/showUser?email={{item.email}}">View</a></span>
+                    </div>
+                    <span class="text-muted">{{item.email}}</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+    {% if messages %}
+        <img src="{% static './images/user-not-found.png' %}" class="w-50 mx-auto" />
+    {% endif %}
+
+    {% include "footer.html" %}
+
+    <section
+        style="background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;">
+        <a href="https://mobirise.site/a" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
+        <p style="flex: 0 0 auto; margin:0; padding-right:1rem;">   <a
+                href="https://mobirise.site/p" style="color:#aaa;"></a></p>
+    </section>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/smoothscroll/smooth-scroll.js' %}"></script>
+    <script src="{% static 'assets/ytplayer/index.js' %}"></script>
+    <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
+    <script src="{% static 'assets/theme/js/script.js' %}"></script>
+    <input name="animation" type="hidden">
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% load static %}
+<div class="container" id="updateForm">
+    <h3 class="my-3">Update Details</h3>
+    <div class="row">
+        <form action="updateUser" class="form-control col-md-8 col-12 mx-auto input-control py-3" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for message in messages %}
+                {{message}}
+            {% endfor %}
+            {{ updateForm.as_p }}
+            <input type="submit" class="btn btn-primary my-4" value="Update" />
+        </form>
+    </div>
+</div>

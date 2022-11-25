@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="Mobirise v5.6.0, mobirise.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="{% static 'assets/images/quizzio-logo-96x96.png' %}" type="image/x-icon">
+    <meta name="description" content="">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-reboot.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/animatecss/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/socicon/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
+    </noscript>
+    <link rel="preload" as="style" href="{% static 'assets/mobirise/css/mbr-additional.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+</head>
+
+<body>
+    
+    {% include "navbar.html" %}
+    {% include "forms/login-register.html" %}
+
+    <div class="container position-relative bg-dark mt-5" style="height: 25vh; border-radius: 25px 25px 0px 0px;">
+        {% if req_user.profilePic %}
+        <img src="{{req_user.profilePic.url}}" class="position-absolute d-none d-sm-block p-3 bg-light" style="width: 150px; top: 75px; z-index: 99; left: 50px; border-radius: 50%; height: 150px;" />
+        {% else %}
+        <img src="media/images/users/user-def-pic.png" class="position-absolute d-none d-sm-block p-3 bg-light" style="width: 150px; top: 75px; z-index: 99; left: 50px; border-radius: 50%; height: 150px;" />
+        {% endif %}
+        <h2 class="container text-light pt-4 fw-bold">List of quizzes attempted by <a href="/accounts/showUser?email={{req_user.email}}">{{req_user.name}}</a></h2>
+    </div>
+
+    <section data-bs-version="5.1" class="header15 container bg-light border py-5 mb-5 cid-sZz6TzqkI2" id="header15-p">
+        <table class="container table">
+            <tr>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Marks</th>
+            </tr>
+            {% for quiz in quizzes %}
+            <tr>
+                    <td>
+                        {% if req_user.email == user.email %}
+                        <a href="/scorecard?id={{quiz.quizId.id}}"><span class="mobi-mbri mobi-mbri-link mbr-iconfont mbr-iconfont-btn text-muted float-start px-3"></span></a>
+                        {% endif %}
+                        {% if req_user != None %}
+                            {% if quiz.quizId.quizPic %}
+                            <img src="{{quiz.quizId.quizPic.url}}" style="width: 300px; height: 300px;border-radius: 50%; width: 30px; height: 30px;" />
+                            {% else %}
+                            <img src="/media/images/quizzes/default-quiz-img.png" style="width: 300px; height: 300px;border-radius: 50%; width: 30px; height: 30px;" />
+                            {% endif %}
+                        {% else %}
+                        <img src="{% static '../media/images/quizzes/default-quiz-img.jpg' %}" class="w-50" style="border-radius: 50%; width: 30px; height: 30px;" />
+                        {% endif %}
+                    </td>
+                    <td>{{quiz.quizId.name}}</td>
+                    <td>{{quiz.marks}}
+                        <!-- {% if req_user.email == user.email %}
+                        <a href="/deleteQuiz?id={{quiz.id}}"><span class="mobi-mbri mobi-mbri-trash mbr-iconfont mbr-iconfont-btn text-secondary float-end px-3"></span></a>
+                        {% else %} -->
+                        <!-- <a href="/giveQuiz?id={{quiz.id}}"><span class="mobi-mbri mobi-mbri-right mbr-iconfont mbr-iconfont-btn text-light bg-primary float-end p-2" style="border-radius: 50%;"></span></a>
+                        {% endif %} -->
+                    </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </section>
+
+    <!-- {% include "footer.html" %} -->
+
+    <section
+        style="background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;">
+        <a href="https://mobirise.site/a" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
+        <p style="flex: 0 0 auto; margin:0; padding-right:1rem;"><a
+                href="https://mobirise.site/p" style="color:#aaa;"></a></p>
+    </section>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/smoothscroll/smooth-scroll.js' %}"></script>
+    <script src="{% static 'assets/ytplayer/index.js' %}"></script>
+    <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
+    <script src="{% static 'assets/theme/js/script.js' %}"></script>
+
+
+    <input name="animation" type="hidden">
+</body>
+
+</html>

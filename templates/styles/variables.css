@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+    --base-main: #3aafa9;
+    --base-dark: #2B7A78;
+    --dark: #17252A;
+    --base-light: #DEF2F1;
+    --light: #FEFFFF;
+    --primary-trans: #3aafa944;
+}
+
+.bg-base-main { background-color: var(--base-main); }
+.bg-base-dark { background-color: var(--base-dark); }
+.bg-base-light { background-color: var(--base-light); }
+.bg-dark { background-color: var(--dark); }
+.bg-light { background-color: var(--light); }
+
+.text-base-main { color: var(--base-main); }
+.text-base-dark { color: var(--base-dark); }
+.text-dark { color: var(--dark); }
+.text-base-light { color: var(--base-light); }
+.text-light { color: var(--light); }
+
+.top-25 { top: 25%; }
+.top-75 { top: 75%; }
+.start-25 { left: 25%; }
+.start-75 { left: 75%; }
+
+.btn { border-radius: 0px; }
+.btn-hover { color: white; }
+
+.btn-inverted-base-dark { color: var(--base-dark); background: transparent; border: 2px solid var(--base-dark); }
+.btn-inverted-dark { color: var(--dark); background: transparent; border: 2px solid var(--dark); }
+.btn-inverted-base-main { color: var(--base-main); background: transparent; border: 2px solid var(--base-main); }
+.btn-inverted-base-light { color: var(--base-light); background: transparent; border: 2px solid var(--base-light); }
+.btn-inverted-light { color: var(--light); background: transparent; border: 2px solid var(--light); }
+
+.btn-base-dark { color: white;  background: var(--base-dark); border: 2px solid var(--base-dark); }
+.btn-dark { color: white;  background: var(--dark); border: 2px solid var(--dark); }
+.btn-base-main { color: white;  background: var(--base-main); border: 2px solid var(--base-main); }
+.btn-base-light { color: var(--dark); background: var(--base-light); border: 2px solid var(--base-light); }
+.btn-light { color: var(--dark);  background: var(--light); border: 2px solid var(--light); }
+
+.btn-inverted-base-dark:hover { color: var(--light); background-color: var(--base-dark); transition: height 0.3s; }
+.btn-inverted-dark:hover { color: var(--light); background-color: var(--dark); transition: height 0.3s; }
+.btn-inverted-base-main:hover { color: var(--light); background-color: var(--base-main); transition: height 0.3s; }
+.btn-inverted-base-light:hover { color: var(--dark); background-color: var(--base-light); transition: 0.3s;}
+.btn-inverted-light:hover { color: var(--dark); background-color: var(--light); transition: 0.3s;}
+
+.custom-link:hover {
+    background-color: var(--base-light);
+    color: var(--base-dark);
+}
+
+.custom-link {
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.min-vh-50 { min-height: 50vh; }
+.min-vh-75 { min-height: 75vh; }

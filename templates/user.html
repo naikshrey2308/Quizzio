@@ -1,0 +1,155 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="Mobirise v5.6.0, mobirise.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="{% static 'assets/images/quizzio-logo-96x96.png' %}" type="image/x-icon">
+    <meta name="description" content="">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-reboot.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/animatecss/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/socicon/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/timeline.css' %}">
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
+    </noscript>
+    <link rel="preload" as="style" href="{% static 'assets/mobirise/css/mbr-additional.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+</head>
+
+<body>
+    
+    {% include "navbar.html" %}
+
+    <section data-bs-version="5.1" class="header15 bg-dark py-5 mb-5 cid-sZz6TzqkI2" id="header15-p">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md">
+                    <div class="text-wrapper my-5">
+                        <h2 class="mbr-section-title text-light mb-3 mbr-fonts-style display-2">
+                            <strong>{{user.name}}</strong>
+                        </h2>
+                        <p class="mbr-text text-light mb-3 mbr-fonts-style display-7">
+                            {% if userType == "Student" %}
+                                <img src="{% static './images/star.png' %}" style="width: 30px; display: inline-block;" />
+                                {{user.rating}} XP<br/><br/>
+                            {% else %}
+                                <img src="{% static './images/organizer-badge.svg' %}" style="width: 30px; display: inline-block; filter: invert(1);" />
+                                Organizer<br/><br/>
+                            {% endif %}
+                            <img src="{% static './images/institution.png' %}" style="width: 30px; display: inline-block; filter: invert(1);" />
+                            {{user.institution}}
+                        </p>
+                        <div class="mbr-section-btn">
+                            <a class="btn btn-primary display-4" href="#updateForm">Update Profile</a>
+                            <a class="btn btn-secondary display-4" href="../logoutUser">Logout</a></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md">
+                    {% if user.profilePic.url != None %}
+                        <img src="{{user.profilePic.url}}" style="width: 300px; height: 300px;border-radius: 50%;" />
+                    {% else %}
+                        <img src="{% static '../media/images/users/user-def-pic.png' %}" class="w-50" style="border-radius: 50%;" />
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if userType == "Student" %}
+    <div class="row">
+        <div class="container col-6 mx-auto">
+            <img src="data:image/png;base64,{{pie_graph}}" class="w-100" />
+        </div>
+        <div class="container col-6 mx-auto">
+            <img src="data:image/png;base64,{{per_graph}}" class="w-100" />
+        </div>
+    </div>
+    {% endif %}
+
+    <section class="col-12 col-lg-6 mx-auto my-5">
+        <h3 class="text-center">Recent Activity</h3>
+        {% if userType == "Organizer" %}
+            {% for quiz in quizzes %}
+            <div class="container ">
+                <div class="t-container right">
+                    <div class="content">
+                        Created a quiz {{quiz.name}}<br/>
+                        <span class="text-muted" style="font-size: small;">{{quiz.creationTime}}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            {% for score in scores %}
+            <div class="container ">
+                <div class="t-container right">
+                    <div class="content">
+                        Attempted a quiz {{score.quizId.name}}<br/>
+                        <span class="text-muted" style="font-size: small;">Scored <strong>{{score.marks}} / {{score.quizId.marks}}</strong></span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if userType == "Student" %}
+        <div class="text-center"><a href="/showAllStuQuiz?id={{user.id}}"><button class="btn btn-warning">Show All Quizzes</button></a></div>
+        {% else %}
+        <div class="text-center"><a href="/showAllQuiz?id={{user.id}}"><button class="btn btn-warning">Show All Quizzes</button></a></div>
+        {% endif %}
+    
+    </section>
+
+    <section data-bs-version="5.1" class="info3 cid-sZz9LzOvB1" id="info3-s">
+        {% include "forms/update-profile.html" %}
+    </section>
+
+    {% include "forms/delete.html" %}
+    <section data-bs-version="5.1" class="info3 cid-sZz9LzOvB1" id="info3-s">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card col-12 col-lg-10">
+                    <div class="card-wrapper">
+                        <div class="card-box align-center">
+                            <div class="mbr-section-btn mt-3">
+                                <a class="btn btn-secondary-outline display-4 mb-5" data-bs-toggle="modal" data-bs-target="#deleteModal"><span class="mobi-mbri mobi-mbri-trash mbr-iconfont mbr-iconfont-btn"></span>Delete My Account</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include "footer.html" %}
+
+    <section
+        style="background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;">
+        <a href="https://mobirise.site/a" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
+        <p style="flex: 0 0 auto; margin:0; padding-right:1rem;">Mobirise free software - <a
+                href="https://mobirise.site/p" style="color:#aaa;">Click now</a></p>
+    </section>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/smoothscroll/smooth-scroll.js' %}"></script>
+    <script src="{% static 'assets/ytplayer/index.js' %}"></script>
+    <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
+    <script src="{% static 'assets/theme/js/script.js' %}"></script>
+
+
+    <input name="animation" type="hidden">
+</body>
+
+</html>

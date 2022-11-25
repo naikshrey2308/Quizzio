@@ -1,0 +1,111 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'styles/variables.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+
+<style>
+    #joinBtn:hover {
+        background-color: var(--primary-trans);
+    }
+</style>
+
+<div class="modal" id="loginModal" aria-hidden="true" aria-labelledby="loginModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body h-auto">
+            <img src="{% static './images/login.svg' %}" class="w-100" />
+
+            <form id="loginForm" action="/accounts/loginUser" class="form-control input-control" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group flex-nowrap my-3 border-dark">
+                <span class="input-group-text" id="addon-wrapping">@</span>
+                <input type="email" name="u_email" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="addon-wrapping" required>
+              </div>
+              <div class="input-group flex-nowrap my-3">
+                <span class="input-group-text" id="addon-wrapping"><i class="fa fa-thin fa-key"></i></span>
+                <input type="password" name="u_password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="addon-wrapping" required>
+              </div>
+              
+              <input type="submit" id="loginFormBtn" name="loginbtn" class="btn btn-primary text-base-main d-none">
+            </form>
+
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-transparent text-base-dark" data-bs-target="#registerModal" data-bs-toggle="modal" id="joinBtn" data-bs-dismiss="modal">+ Join the Community</button>
+            <button id="loginFormSubmitter" class="btn btn-primary text-base-main">
+                Login
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="registerModal" aria-hidden="true" aria-labelledby="registerModalLabel" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Create Account</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form id="registerForm" action="/accounts/createUser" class="form-control input-control" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="w-25 d-block mx-auto m-2 border border-1" style="border-radius: 50%;">
+                <img id="profile_pic_displayer" src="{% static './images/user-def-pic.png' %}" />
+            </div>
+            <input type="file" id="profile_pic" name="u_dp" class="form-control input-control" placeholder="Upload Profile Picture" /><br/>
+            <input type="text" name="u_name" class="input-control form-control" placeholder="Name" pattern="^[a-zA-Z ]+$" required /><br/>
+            <input type="password" name="u_pass" class="input-control form-control" placeholder="Password" required /><br/>
+            <input type="password" name="u_c_pass" class="input-control form-control" placeholder="Confirm Password" required /><br/>
+            <input type="email" name="u_email" class="input-control form-control" placeholder="Email" required /><br/>
+            <input type="text" name="u_institute" class="input-control form-control" placeholder="Institution" required /><br/>
+            
+            <select name="u_type" id="user_type" class="input-control form-control" required>
+                <option value="Student" selected>Student</option>
+                <option value="Organizer">Organizer</option>
+            </select><br/>
+
+            <input type="text" placeholder="Date of Birth" onfocus="(this.type='date')" name="u_dob" id="u_dob" class="form-control input-control"required/><br/>
+
+            <input type="checkbox" name="u_NLS_status" checked/><span style="font-size: 15px; color: grey;">&nbsp;&nbsp;Subscribe to Newsletter</span><br/>
+
+            <input type="submit" id="registerFormBtn" class="d-none" />
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn text-base-main btn-light" data-bs-target="#loginModal" data-bs-toggle="modal" data-bs-dismiss="modal">Log in instead</button>
+        <button id="registerFormSubmitter" class="btn btn-primary" type="submit" onclick="submitRegister()">Create Account</button>
+    </div>
+    </div>
+</div>
+</div>
+
+<script>
+    let registerFormBtn = document.getElementById("registerFormBtn");
+    let registerFormSubmitter = document.getElementById("registerFormSubmitter");
+    registerFormSubmitter.addEventListener("click", () => {
+        registerFormBtn.click();
+    });
+
+    let loginFormBtn = document.getElementById("loginFormBtn");
+    let loginFormSubmitter = document.getElementById("loginFormSubmitter");
+    loginFormSubmitter.addEventListener("click", () => {
+        loginFormBtn.click();
+    });
+
+    let imageUploader = document.getElementById("profile_pic");
+    let imageDisplayer = document.getElementById("profile_pic_displayer");
+    imageUploader.addEventListener("change", () => {
+        let image = URL.createObjectURL(imageUploader.files[0]);
+        console.log(image);
+        imageDisplayer.src = image;
+    });
+</script>

@@ -1,0 +1,184 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="Mobirise v5.6.0, mobirise.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="{% static 'assets/images/quizzio-logo-96x96.png' %}" type="image/x-icon">
+    <meta name="description" content="">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-reboot.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/animatecss/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/socicon/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
+    </noscript>
+    <link rel="preload" as="style" href="{% static 'assets/mobirise/css/mbr-additional.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'styles/variables.css' %}">
+</head>
+
+<style>
+    input[type=checkbox]:checked { background: var(--base-main); border-color: var(--base-main); }
+    body { background-image: url("{% static 'images/quiz-background.png' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    body::after{
+        position: absolute;
+        content: '';
+        background-color: tomato;
+        opacity: 25%;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
+</style>
+
+<body>
+
+    {% include "navbar.html" %}
+
+    <div class="row gx-0 container mx-auto mt-5">
+        <div class="row g-0 col-12 col-md-8 mx-auto px-2 px-md-5 bg-dark text-light p-5" style="border-radius: 15px;">
+            <div class="col-8">
+            <h3 class="display-6 text-primary">{{quiz.name}}</h3>
+            <p class="text-muted" style="line-height: 1.5;">Marks: {{quiz.marks}}<br/>
+            Description: {{quiz.description}}<br/>
+            Subject: {{quiz.subject}}<br/>
+            Created By {{quiz.organizer.name}}</p>
+            <!-- Total Time:  -->
+            </div>
+            {% if quiz.quizPic %}
+            <div class="col"><img src="{{quiz.quizPic.url}}" style="border-radius: 50%; width: 100%;" /></div>
+            {% else %}
+            <div class="col"><img src="media/images/quizzes/default-quiz-img.png" style="border-radius: 50%; width: 100%;" /></div>
+            {% endif %}
+        </div>
+    </div>
+    
+<form class="bg-transparent" method="POST" action="/giveQuiz/submit">
+    {% csrf_token %}
+    <input type="hidden" name="u_id" value="{{user.id}}" />
+    <input type="hidden" name = "q_id" value="{{quiz.id}}">
+    <section class="row container mx-auto my-3 g-0 bg-transparent"> 
+        {% for q in data %}
+        <div class="position-relative col-12 col-md-8 bg-light mx-auto border border-1 my-2 px-2 px-md-5 p-3" style="border-radius: 15px;">
+            <div>
+                <p class="text-end position-absolute text-muted" style="top: 25px; right: 25px;">{{q.question.marks}} Mark(s)</p>
+                <p class="text-dark fs-5 pt-2"> {{q.question.statement}}</p>
+            </div>
+
+            {% for opt in q.choices %}  
+                <p class="fs-6 my-0 p-2">
+                       <input type="checkbox" id="val-{{q.question.id}}-{{opt.id}}" name="val-{{q.question.id}}-{{opt.id}}" class="form-check-input" value="{{opt.id}}"  />
+                       <label for="val-{{q.question.id}}-{{opt.id}}">{{ opt.statement }}</label>
+                </p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </section>
+
+    <input id="time-data" type="hidden" value="{{quiz.quizTime|time:'H:i:s'}}" />
+
+    <div id="timer" class="position-fixed bg-light py-3 px-4 timer" style="top: 100px; right: 30px;">
+
+        <p class="my-0 d-inline" id="timer-text"></p>
+    </div>
+
+    <div class="container row g-0 mx-auto">
+        <p class="text-end col-12 col-md-8 mx-auto"><button id="quiz-submit" type="submit" class="btn btn-secondary float-end">Submit</button></p>
+    </div>
+</form>
+
+    <!-- <class="d-flex justify-content-space-between" >
+        <a><button type="submit"></button></a>
+        <a></a>
+    </div> -->
+  
+    <!-- {% include "footer.html" %} -->
+
+    <section class="bg-transparent"
+        style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;">
+        <a href="https://mobirise.site/a" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
+        
+    </section>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/smoothscroll/smooth-scroll.js' %}"></script>
+    <script src="{% static 'assets/ytplayer/index.js' %}"></script>
+    <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
+    <script src="{% static 'assets/theme/js/script.js' %}"></script>
+
+
+    <input name="animation" type="hidden">
+
+    <script>
+        let timer = document.getElementById("timer-text");
+        let btn = document.getElementById("quiz-submit");
+        let time = document.getElementById("time-data");
+
+        let endTime = null;
+        window.onload = function() {    
+            if(localStorage.getItem("initTime") != null) {
+                endTime = localStorage.getItem("initTime");
+                console.log(endTime);
+                localStorage.removeItem("initTime");
+                start_timer(endTime);
+            } else {
+                endTime = new Date();
+                console.log(endTime.getTime());
+                endTime.setHours(endTime.getHours() + +time.value.split(":")[0]);
+                endTime.setMinutes(endTime.getMinutes() + +time.value.split(":")[1]);
+                endTime.setSeconds(endTime.getSeconds() + +time.value.split(":")[2]);
+                endTime = endTime.getTime();
+                start_timer(endTime);
+            }
+        }
+        
+        let d = null;
+        function start_timer(init_time) {
+            setInterval(() => {
+                if(localStorage.getItem("timer") != null) {
+                    d = localStorage.getItem("timer");
+                    localStorage.removeItem("timer");
+                } else
+                    d = new Date().getTime();
+
+                let distance = init_time - d;
+
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                if(hours <= 0 && minutes <= 0 && seconds <= 0) {
+                   btn.click();
+                }
+
+                timer.textContent = `${hours}:${minutes}:${seconds}`;
+             }, 999);
+        }
+
+        window.addEventListener("unload", () => {
+            localStorage.setItem("initTime", endTime);
+            localStorage.setItem("timer", d);
+        });
+    </script>
+</body>
+
+</html>

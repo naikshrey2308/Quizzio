@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html  >
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v5.6.0, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="{% static 'assets/images/quizzio-logo-96x96.png' %}" type="image/x-icon">
+  <meta name="description" content="">
+  
+  
+  <title>Discussions</title>
+  <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-grid.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-reboot.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/animatecss/animate.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/socicon/css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
+  <link rel="preload" as="style" href="{% static 'assets/mobirise/css/mbr-additional.css' %}"><link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+</head>
+
+<style>
+    .doubt:hover {
+        cursor: pointer;
+        background-color: rgba(166, 192, 241, 0.555);
+    }
+</style>
+
+<body>
+  
+    {% include "navbar.html" %}
+    {% include "forms/login-register.html" %}
+
+<section data-bs-version="5.1" class="features12 cid-sZKIsbM2kP" id="features13-v">
+
+    
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6">
+                <div class="card-wrapper">
+                    <div class="card-box align-left">
+                        <h4 class="card-title mbr-fonts-style mb-4 display-2"><strong>Discussion?</strong>
+                        </h4>
+                        <p class="mbr-text mbr-fonts-style mb-4 display-7">
+                            Yep! You guessed it correct!<br><br>Use our discussions page to post your doubts and get replies from other users. From any question in the quiz, to any general doubt, our outstanding user community is always ready to help you with your doubts which helps you grow.</p>
+                            {% if user == None %}
+                            <div class="mbr-section-btn"><a class="btn btn-secondary display-4" data-bs-target="#loginModal" data-bs-toggle="modal">Post A Doubt</a></div>
+                            {% elif userType == "Organizer" %}
+                            <div class="mbr-section-btn"><a class="btn btn-secondary display-4" href="#discussions">Solve A Doubt</a></div>
+                            {% else %}
+                            <div class="mbr-section-btn"><a class="btn btn-secondary display-4" href="#post-doubt-form">Post A Doubt</a></div>
+                            {% endif %} 
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="item mbr-flex">
+                    <div class="icon-box">
+                        <span class="mbr-iconfont mobi-mbri-question mobi-mbri" style="color: rgb(238, 238, 238); fill: rgb(238, 238, 238);"></span>
+                    </div>
+                    <div class="text-box">
+                        <h4 class="icon-title mbr-black mbr-fonts-style display-7">
+                            <strong>Having a doubt?</strong></h4>
+                        <h5 class="icon-text mbr-black mbr-fonts-style display-4">You don't have to think much. Just go to the create doubt part and post your doubt.</h5>
+                    </div>
+                </div>
+                <div class="item mbr-flex">
+                    <div class="icon-box">
+                        <span class="mbr-iconfont mobi-mbri-cust-feedback mobi-mbri"></span>
+                    </div>
+                    <div class="text-box">
+                        <h4 class="icon-title mbr-black mbr-fonts-style display-7"><strong>Get instant replies</strong></h4>
+                        <h5 class="icon-text mbr-black mbr-fonts-style display-4">After posting your doubt, get instant replies from online users and get your concept cleared.</h5>
+                    </div>
+                </div>
+                <div class="item mbr-flex">
+                    <div class="icon-box">
+                        <span class="mbr-iconfont mobi-mbri-growing-chart mobi-mbri"></span>
+                    </div>
+                    <div class="text-box">
+                        <h4 class="icon-title mbr-black mbr-fonts-style display-7">
+                            <strong>Grow and help others</strong></h4>
+                        <h5 class="icon-text mbr-black mbr-fonts-style display-4">Keeping posting your doubts and make progress. When others are having a doubt, as a responsible quizzio user also try to get their doubts cleared.</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="content4 cid-sZKL2O1w0E" id="content4-10">
+    
+    
+    <div id="discussions" class="container">
+        <div class="row justify-content-center">
+            <div class="title col-md-12 col-lg-10">
+                <h3 class="mbr-section-title mbr-fonts-style align-center mb-4 display-2">
+                    <strong>Discussions</strong></h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <div class="container my-5">
+        <table class="table">
+            {% for doubt in doubt_list %}
+            <tr class="doubt" onclick="document.location.href='/discuss/view?id={{doubt.id}}'">
+                {% if doubt.creator.profilePic.url != None %}
+                <td class="p-3"><img src="{{doubt.creator.profilePic.url}}" style="border-radius: 50%; height: 30px; width:30px;" class="d-inline-block"/> &nbsp;&nbsp;&nbsp;&nbsp; {{doubt.creator.name}}</td>
+                {% endif %}
+                <td class="p-3">{{doubt.heading}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% if user != None and userType == "Student" %}
+        {% include "forms/post-doubt.html" %}
+    {% endif %}
+
+    {% include "footer.html" %}
+
+<section style="background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;"><a href="https://mobirise.site/t" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a><p style="flex: 0 0 auto; margin:0; padding-right:1rem;">Mobirise site creator - <a href="https://mobirise.site/p" style="color:#aaa;">Click for more</a></p></section><script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>  <script src="{% static 'assets/smoothscroll/smooth-scroll.js' %}"></script>  <script src="{% static 'assets/ytplayer/index.js' %}"></script>  <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>  <script src="{% static 'assets/theme/js/script.js' %}"></script>  
+  
+  
+  <input name="animation" type="hidden">
+  </body>
+</html>

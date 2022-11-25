@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="Mobirise v5.6.0, mobirise.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="{% static 'assets/images/quizzio-logo-96x96.png' %}" type="image/x-icon">
+    <meta name="description" content="">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-reboot.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/animatecss/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/socicon/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
+    </noscript>
+    <link rel="preload" as="style" href="{% static 'assets/mobirise/css/mbr-additional.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+</head>
+
+<body>
+    
+    {% include "navbar.html" %}
+    
+    <section class="container my-5"> 
+        <div class="container">
+            <div class="p-5 bg-dark text-light" style="border-radius: 25px 25px 0px 0px;">
+                <h3 class="text-primary">Question:</h3>
+                <p class="text-end">{{question.marks}} Mark(s)</p>
+                <p class="text-white fs-5 pt-2"> {{question.statement}}</p>
+            </div>
+
+            <div class="container bg-light py-5 my-0">
+                {% for opt in options %}  
+                    {% if opt.id in correctOpts %}     
+                        <p class="fs-6 border my-0 p-3" style="background-color: rgb(181, 238, 181);"><input type="checkbox" class="form-check-input" checked disabled />&nbsp;{{ opt.statement }}</p>
+                    {% else %}
+                        <p class="p-3 border my-0 fs-6"><input type="checkbox" class="form-check-input" disabled />&nbsp;{{ opt.statement }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="container p-5 bg-dark text-light" style="border-radius: 0px 0px 25px 25px;">
+                <h4 class="text-primary">Solution:</h4>
+                <br/><p>{{question.solution}}</p>
+            </div>
+        </div>
+    </section>
+  
+    <!-- {% include "footer.html" %} -->
+
+    <section
+        style="background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;">
+        <a href="https://mobirise.site/a" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
+        
+    </section>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/smoothscroll/smooth-scroll.js' %}"></script>
+    <script src="{% static 'assets/ytplayer/index.js' %}"></script>
+    <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
+    <script src="{% static 'assets/theme/js/script.js' %}"></script>
+
+
+    <input name="animation" type="hidden">
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="Mobirise v5.6.0, mobirise.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="{% static 'assets/images/quizzio-logo-96x96.png' %}" type="image/x-icon">
+    <meta name="description" content="">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-grid.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap-reboot.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/animatecss/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/socicon/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
+    </noscript>
+    <link rel="preload" as="style" href="{% static 'assets/mobirise/css/mbr-additional.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
+</head>
+
+<body>
+    
+    {% include "navbar.html" %}
+    {% include "forms/login-register.html" %}
+
+    <section data-bs-version="5.1" class="container mt-5 header15 bg-dark py-5 cid-sZz6TzqkI2" id="header15-p" style="border-radius: 25px 25px 0px 0px;">
+        <div class="container row p-3">                   
+            <div class="col-12 col-sm-8 col-md-10 text-light">
+                <p class="text-light fw-bold fs-4 text-end">{{quiz.name}}</p>
+                <p class="text-light text-muted text-end">{{quiz.description}}</p>
+                <p class="text-light text-muted text-end">Subject: {{quiz.subject}}</p>
+                <p class="text-light text-muted text-end">Total Marks: {{quiz.marks}}</p>
+                <p class="text-light text-muted text-end">Created By <a href="/accounts/showUser?email={{quiz.organizer.email}}">@{{quiz.organizer.name}}</a></p>
+                <p class="text-light text-muted text-end">Created on <span>{{quiz.creationTime}}</span></a></p>
+            </div>
+            <div class="col-12 col-sm-4 col-md-2">
+                {% if quiz.quizPic %}
+                    <img src="{{quiz.quizPic.url}}" class="mx-auto" style="width: 150px; height: 150px;border-radius: 50%;" />
+                {% else %}
+                    <img src="media/images/quizzes/default-quiz-img.png" class="mx-auto" style="border-radius: 50%; width: 150px; height: 150px;" />
+                {% endif %}
+            </div> 
+        </div>
+    </section>
+
+    <div class="container bg-light py-3">
+        <div class="row g-0 text-center">
+            <div class="col-4"><span class="badge py-1 bg-primary"> </span> Attempts: {{total_attempts}}</div>
+            <div class="col-4"><span class="badge py-1 bg-danger"> </span> Accuracy: {{accuracy}}</div>
+            <div class="col-4"> 
+                {% if quiz.isLocked == True %}
+                <a title="Cannot delete or modify a question from an active quiz"><span class="mobi-mbri mobi-mbri-lock mbr-iconfont mbr-iconfont-btn text-muted px-3"></span></a>
+                    Locked
+                {% else %}
+                <a title="Cannot delete or modify a question from an active quiz"><span class="mobi-mbri mobi-mbri-unlock mbr-iconfont mbr-iconfont-btn text-muted px-3"></span></a>
+                    Unlocked
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <section data-bs-version="5.1" class="header15 container bg-light border py-5 mb-5 cid-sZz6TzqkI2" id="header15-p">
+        <table class="container table">
+            <tr>
+                <th>Attempt Id</th>
+                <th>User</th>
+                <th>Score</th>
+            </tr>
+            {% for score in scores %}
+            <tr>
+                    <td>
+                        {{score.id}}
+                    </td>
+                    <td>
+                        {% if quiz.quizPic %}
+                            {% if score.studentId.profilePic.url != None %}
+                            <img src="{{score.studentId.profilePic.url}}" class="d-inline" style="width: 300px; height: 300px;border-radius: 50%; width: 30px; height: 30px;" />
+                            {% endif %}
+                        {% else %}
+                        <img src="media/images/quizzes/user-def-pic.png" class="d-inline" style="border-radius: 50%; width: 30px; height: 30px;" />
+                        {% endif %}
+                        <a href="/accounts/showUser?email={{score.studentId.email}}"><span style="background-color: rgba(252, 252, 155, 0.753); padding-left: 10px; padding-right: 10px; border-radius: 25px;">@{{score.studentId.name}}</span></a>
+                    </td>
+                    <td>{{score.marks}}
+                        <a href="/scorecard?id={{quiz.id}}&sid={{score.studentId.id}}"><span class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn text-muted float-end px-3"></span></a>
+                    </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </section>
+
+    <!-- {% include "footer.html" %} -->
+
+    <section
+        style="background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; color:#aaa; font-size:12px; padding: 0; align-items: center; display: flex;">
+        <a href="https://mobirise.site/a" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
+        <p style="flex: 0 0 auto; margin:0; padding-right:1rem;"><a
+                href="https://mobirise.site/p" style="color:#aaa;"></a></p>
+    </section>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/smoothscroll/smooth-scroll.js' %}"></script>
+    <script src="{% static 'assets/ytplayer/index.js' %}"></script>
+    <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
+    <script src="{% static 'assets/theme/js/script.js' %}"></script>
+
+
+    <input name="animation" type="hidden">
+</body>
+
+</html>

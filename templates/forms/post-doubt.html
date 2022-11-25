@@ -1,0 +1,34 @@
+{% load static %}
+
+{% if messages %}
+<div id="message" class="toast show position-absolute" style="top: 75px; left: 40%;" role="alert">
+    <div class="toast-header">
+    <button onclick="document.getElementById('message').classList.add('d-none')" type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="my-5">&nbsp;</div>
+<div class="container my-5" id="post-doubt-form">
+    <h1 class="my-3 fw-bold text-center">Post A Doubt</h1>
+    <div class="row my-5">
+        <form action="" class="col-md-8 col-12 mx-auto input-control py-3" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-lg-12 col-md d-none col-12 form-group mb-3">           
+                {{postDoubtForm.creator}}
+            </div>
+            <div class="col-lg-12 col-md col-12 form-group mb-3">           
+                {{postDoubtForm.heading}}
+            </div>
+            <div class="col-lg-12 col-md col-12 form-group mb-3">           
+                {{postDoubtForm.statement}}
+            </div>
+            <input type="submit" class="btn btn-primary my-4 float-end" value="Post Doubt" />
+        </form>
+    </div>
+</div>
